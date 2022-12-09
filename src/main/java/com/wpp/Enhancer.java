@@ -51,7 +51,7 @@ public class Enhancer implements Opcodes {
             debugFile(bytes);
 
             Class<?> aClass = defineClass(classname, bytes);
-            Object o = aClass.newInstance();
+            Object o = aClass.newInstance();//todo 实例化优化
             if (o instanceof ToyProxy) {
                 ((ToyProxy) o).__proxy__setInterceptor(getInterceptor());
             }
@@ -296,7 +296,12 @@ public class Enhancer implements Opcodes {
                     mv.visitCode();
                     mv.visitVarInsn(ALOAD, 0);
                     mv.visitMethodInsn(INVOKESPECIAL, superDesc, name, methodDesc, false);
-                    mv.visitInsn(ARETURN);
+
+                    if (isVoid(methodReturnType)) {
+                        mv.visitInsn(RETURN);
+                    } else {
+                        mv.visitInsn(ARETURN);
+                    }
                     mv.visitMaxs(1, 1);
                     mv.visitEnd();
                 }
@@ -311,7 +316,7 @@ public class Enhancer implements Opcodes {
                     mv.visitFieldInsn(GETSTATIC, classDesc, methodProxyFieldName, "Ljava/lang/reflect/Method;");
                     mv.visitMethodInsn(INVOKEINTERFACE, "com/wpp/Interceptor", "invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true);
                     //TODO  返回值类型检查 各种返回值处理
-                    if (methodReturnType.isAssignableFrom(Void.class)) {
+                    if (isVoid(methodReturnType)) {
                         mv.visitInsn(RETURN);
                     } else {
                         mv.visitTypeInsn(CHECKCAST, Type.getInternalName(methodReturnType)); //类型转换
@@ -337,7 +342,7 @@ public class Enhancer implements Opcodes {
                     mv.visitInsn(AASTORE);
                     mv.visitFieldInsn(GETSTATIC, classDesc, methodProxyFieldName, "Ljava/lang/reflect/Method;");
                     mv.visitMethodInsn(INVOKEINTERFACE, "com/wpp/Interceptor", "invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true);
-                    if (methodReturnType.isAssignableFrom(Void.class)) {
+                    if (isVoid(methodReturnType)) {
                         mv.visitInsn(RETURN);
                     } else {
                         mv.visitTypeInsn(CHECKCAST, Type.getInternalName(methodReturnType)); //类型转换
@@ -383,5 +388,9 @@ public class Enhancer implements Opcodes {
 
     private void validate() {
         //todo 类、方法 final校验
+    }
+
+    private boolean isVoid(Class<?> methodReturnType) {
+        return methodReturnType.isAssignableFrom(Void.class) || methodReturnType.isAssignableFrom(void.class);
     }
 }

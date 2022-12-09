@@ -9,6 +9,11 @@ import java.lang.reflect.Method;
  */
 public class Base$TOY$1 extends Base implements ToyProxy {
 
+
+    private static Method voidnoargMethod;
+
+    private static Method voidnoargMethodProxy;
+
     private static Method noargMethod;
     private static Method noargMethodProxy;
 
@@ -31,11 +36,23 @@ public class Base$TOY$1 extends Base implements ToyProxy {
             toStringMethod = Object.class.getDeclaredMethod("toString");
             toStringMethodProxy = c2.getDeclaredMethod("__super__toString");
 
+            voidnoargMethod = c1.getDeclaredMethod("voidnoarg");
+            voidnoargMethodProxy = c2.getDeclaredMethod("__super__voidnoarg");
+
         } catch (Exception e) {
         }
     }
 
     private Interceptor interceptor;
+
+    @Override
+    public void voidnoarg() {
+        interceptor.invoke(this, voidnoargMethod, null, voidnoargMethodProxy);
+    }
+
+    public void __super__voidnoarg() {
+        super.voidnoarg();
+    }
 
     public String __super__noarg() {
         return super.noarg();

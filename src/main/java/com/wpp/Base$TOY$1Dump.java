@@ -17,6 +17,14 @@ public class Base$TOY$1Dump implements Opcodes {
         classWriter.visitSource("Base$TOY$1.java", null);
 
         {
+            fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "voidnoargMethod", "Ljava/lang/reflect/Method;", null, null);
+            fieldVisitor.visitEnd();
+        }
+        {
+            fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "voidnoargMethodProxy", "Ljava/lang/reflect/Method;", null, null);
+            fieldVisitor.visitEnd();
+        }
+        {
             fieldVisitor = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "noargMethod", "Ljava/lang/reflect/Method;", null, null);
             fieldVisitor.visitEnd();
         }
@@ -60,11 +68,53 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitEnd();
         }
         {
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "voidnoarg", "()V", null, null);
+            methodVisitor.visitCode();
+            Label label0 = new Label();
+            methodVisitor.visitLabel(label0);
+            methodVisitor.visitLineNumber(50, label0);
+            methodVisitor.visitVarInsn(ALOAD, 0);
+            methodVisitor.visitFieldInsn(GETFIELD, "com/wpp/Base$TOY$1", "interceptor", "Lcom/wpp/Interceptor;");
+            methodVisitor.visitVarInsn(ALOAD, 0);
+            methodVisitor.visitFieldInsn(GETSTATIC, "com/wpp/Base$TOY$1", "voidnoargMethod", "Ljava/lang/reflect/Method;");
+            methodVisitor.visitInsn(ACONST_NULL);
+            methodVisitor.visitFieldInsn(GETSTATIC, "com/wpp/Base$TOY$1", "voidnoargMethodProxy", "Ljava/lang/reflect/Method;");
+            methodVisitor.visitMethodInsn(INVOKEINTERFACE, "com/wpp/Interceptor", "invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true);
+            methodVisitor.visitInsn(POP);
+            Label label1 = new Label();
+            methodVisitor.visitLabel(label1);
+            methodVisitor.visitLineNumber(51, label1);
+            methodVisitor.visitInsn(RETURN);
+            Label label2 = new Label();
+            methodVisitor.visitLabel(label2);
+            methodVisitor.visitLocalVariable("this", "Lcom/wpp/Base$TOY$1;", null, label0, label2, 0);
+            methodVisitor.visitMaxs(5, 1);
+            methodVisitor.visitEnd();
+        }
+        {
+            methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "__super__voidnoarg", "()V", null, null);
+            methodVisitor.visitCode();
+            Label label0 = new Label();
+            methodVisitor.visitLabel(label0);
+            methodVisitor.visitLineNumber(54, label0);
+            methodVisitor.visitVarInsn(ALOAD, 0);
+            methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/wpp/Base", "voidnoarg", "()V", false);
+            Label label1 = new Label();
+            methodVisitor.visitLabel(label1);
+            methodVisitor.visitLineNumber(55, label1);
+            methodVisitor.visitInsn(RETURN);
+            Label label2 = new Label();
+            methodVisitor.visitLabel(label2);
+            methodVisitor.visitLocalVariable("this", "Lcom/wpp/Base$TOY$1;", null, label0, label2, 0);
+            methodVisitor.visitMaxs(1, 1);
+            methodVisitor.visitEnd();
+        }
+        {
             methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "__super__noarg", "()Ljava/lang/String;", null, null);
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(41, label0);
+            methodVisitor.visitLineNumber(58, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/wpp/Base", "noarg", "()Ljava/lang/String;", false);
             methodVisitor.visitInsn(ARETURN);
@@ -79,7 +129,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(46, label0);
+            methodVisitor.visitLineNumber(63, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitFieldInsn(GETFIELD, "com/wpp/Base$TOY$1", "interceptor", "Lcom/wpp/Interceptor;");
             methodVisitor.visitVarInsn(ALOAD, 0);
@@ -100,7 +150,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(50, label0);
+            methodVisitor.visitLineNumber(67, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/wpp/Base", "work", "(Ljava/lang/String;)Ljava/lang/String;", false);
@@ -117,7 +167,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(55, label0);
+            methodVisitor.visitLineNumber(72, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitFieldInsn(GETFIELD, "com/wpp/Base$TOY$1", "interceptor", "Lcom/wpp/Interceptor;");
             methodVisitor.visitVarInsn(ALOAD, 0);
@@ -144,7 +194,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(59, label0);
+            methodVisitor.visitLineNumber(76, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
             methodVisitor.visitInsn(ARETURN);
@@ -159,7 +209,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(64, label0);
+            methodVisitor.visitLineNumber(81, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitFieldInsn(GETFIELD, "com/wpp/Base$TOY$1", "interceptor", "Lcom/wpp/Interceptor;");
             methodVisitor.visitVarInsn(ALOAD, 0);
@@ -180,13 +230,13 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitCode();
             Label label0 = new Label();
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(68, label0);
+            methodVisitor.visitLineNumber(85, label0);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitFieldInsn(PUTFIELD, "com/wpp/Base$TOY$1", "interceptor", "Lcom/wpp/Interceptor;");
             Label label1 = new Label();
             methodVisitor.visitLabel(label1);
-            methodVisitor.visitLineNumber(69, label1);
+            methodVisitor.visitLineNumber(86, label1);
             methodVisitor.visitInsn(RETURN);
             Label label2 = new Label();
             methodVisitor.visitLabel(label2);
@@ -203,19 +253,19 @@ public class Base$TOY$1Dump implements Opcodes {
             Label label2 = new Label();
             methodVisitor.visitTryCatchBlock(label0, label1, label2, "java/lang/Exception");
             methodVisitor.visitLabel(label0);
-            methodVisitor.visitLineNumber(23, label0);
+            methodVisitor.visitLineNumber(28, label0);
             methodVisitor.visitLdcInsn("com.wpp.Base");
             methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
             methodVisitor.visitVarInsn(ASTORE, 0);
             Label label3 = new Label();
             methodVisitor.visitLabel(label3);
-            methodVisitor.visitLineNumber(24, label3);
+            methodVisitor.visitLineNumber(29, label3);
             methodVisitor.visitLdcInsn("com.wpp.Base$TOY$1");
             methodVisitor.visitMethodInsn(INVOKESTATIC, "java/lang/Class", "forName", "(Ljava/lang/String;)Ljava/lang/Class;", false);
             methodVisitor.visitVarInsn(ASTORE, 1);
             Label label4 = new Label();
             methodVisitor.visitLabel(label4);
-            methodVisitor.visitLineNumber(25, label4);
+            methodVisitor.visitLineNumber(30, label4);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitLdcInsn("work");
             methodVisitor.visitInsn(ICONST_1);
@@ -228,7 +278,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "workMethod", "Ljava/lang/reflect/Method;");
             Label label5 = new Label();
             methodVisitor.visitLabel(label5);
-            methodVisitor.visitLineNumber(26, label5);
+            methodVisitor.visitLineNumber(31, label5);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitLdcInsn("__super__work");
             methodVisitor.visitInsn(ICONST_1);
@@ -241,7 +291,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "workMethodProxy", "Ljava/lang/reflect/Method;");
             Label label6 = new Label();
             methodVisitor.visitLabel(label6);
-            methodVisitor.visitLineNumber(28, label6);
+            methodVisitor.visitLineNumber(33, label6);
             methodVisitor.visitVarInsn(ALOAD, 0);
             methodVisitor.visitLdcInsn("noarg");
             methodVisitor.visitInsn(ICONST_0);
@@ -250,7 +300,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "noargMethod", "Ljava/lang/reflect/Method;");
             Label label7 = new Label();
             methodVisitor.visitLabel(label7);
-            methodVisitor.visitLineNumber(29, label7);
+            methodVisitor.visitLineNumber(34, label7);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitLdcInsn("__super__noarg");
             methodVisitor.visitInsn(ICONST_0);
@@ -259,7 +309,7 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "noargMethodProxy", "Ljava/lang/reflect/Method;");
             Label label8 = new Label();
             methodVisitor.visitLabel(label8);
-            methodVisitor.visitLineNumber(31, label8);
+            methodVisitor.visitLineNumber(36, label8);
             methodVisitor.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
             methodVisitor.visitLdcInsn("toString");
             methodVisitor.visitInsn(ICONST_0);
@@ -268,23 +318,41 @@ public class Base$TOY$1Dump implements Opcodes {
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "toStringMethod", "Ljava/lang/reflect/Method;");
             Label label9 = new Label();
             methodVisitor.visitLabel(label9);
-            methodVisitor.visitLineNumber(32, label9);
+            methodVisitor.visitLineNumber(37, label9);
             methodVisitor.visitVarInsn(ALOAD, 1);
             methodVisitor.visitLdcInsn("__super__toString");
             methodVisitor.visitInsn(ICONST_0);
             methodVisitor.visitTypeInsn(ANEWARRAY, "java/lang/Class");
             methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
             methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "toStringMethodProxy", "Ljava/lang/reflect/Method;");
-            methodVisitor.visitLabel(label1);
-            methodVisitor.visitLineNumber(35, label1);
             Label label10 = new Label();
-            methodVisitor.visitJumpInsn(GOTO, label10);
+            methodVisitor.visitLabel(label10);
+            methodVisitor.visitLineNumber(39, label10);
+            methodVisitor.visitVarInsn(ALOAD, 0);
+            methodVisitor.visitLdcInsn("voidnoarg");
+            methodVisitor.visitInsn(ICONST_0);
+            methodVisitor.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "voidnoargMethod", "Ljava/lang/reflect/Method;");
+            Label label11 = new Label();
+            methodVisitor.visitLabel(label11);
+            methodVisitor.visitLineNumber(40, label11);
+            methodVisitor.visitVarInsn(ALOAD, 1);
+            methodVisitor.visitLdcInsn("__super__voidnoarg");
+            methodVisitor.visitInsn(ICONST_0);
+            methodVisitor.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            methodVisitor.visitFieldInsn(PUTSTATIC, "com/wpp/Base$TOY$1", "voidnoargMethodProxy", "Ljava/lang/reflect/Method;");
+            methodVisitor.visitLabel(label1);
+            methodVisitor.visitLineNumber(43, label1);
+            Label label12 = new Label();
+            methodVisitor.visitJumpInsn(GOTO, label12);
             methodVisitor.visitLabel(label2);
-            methodVisitor.visitLineNumber(34, label2);
+            methodVisitor.visitLineNumber(42, label2);
             methodVisitor.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[]{"java/lang/Exception"});
             methodVisitor.visitVarInsn(ASTORE, 0);
-            methodVisitor.visitLabel(label10);
-            methodVisitor.visitLineNumber(36, label10);
+            methodVisitor.visitLabel(label12);
+            methodVisitor.visitLineNumber(44, label12);
             methodVisitor.visitFrame(Opcodes.F_SAME, 0, null, 0, null);
             methodVisitor.visitInsn(RETURN);
             methodVisitor.visitLocalVariable("c1", "Ljava/lang/Class;", null, label3, label1, 0);

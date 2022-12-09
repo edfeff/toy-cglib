@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 public class EnhancerDemoMain {
     public static void main(String[] args) throws Throwable {
-//        genClass();
-        genClass2();
+        genClass();
+//        genClass2();
     }
 
     private static void genClass2() {
@@ -37,7 +37,7 @@ public class EnhancerDemoMain {
     }
 
     private static void genClass() {
-        System.setProperty("com.wpp.debug.location", "/tmp/toy-cglib-debug");
+        System.setProperty("com.wpp.debug.location", "/Users/wpp/test/toy-cglib/target");
 
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperClass(Base.class);

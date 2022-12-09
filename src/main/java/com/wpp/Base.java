@@ -6,6 +6,9 @@ package com.wpp;
  * Date: 2022/12/8 21:22
  */
 public class Base {
+    public void voidnoarg() {
+        System.out.println("voidnoarg");
+    }
     public String noarg() {
         return "noarg";
     }

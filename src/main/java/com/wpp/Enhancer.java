@@ -388,6 +388,28 @@ public class Enhancer implements Opcodes {
 
     private void validate() {
         //todo 类、方法 final校验
+        Class clazz = getSuperClass();
+        if (clazz.isInterface()) {
+            throw new IllegalArgumentException("不能增强接口,请使用JDK动态代理");
+        }
+        if (Modifier.isFinal(clazz.getModifiers())) {
+            throw new IllegalArgumentException("不能增强final类");
+        }
+        if (Modifier.isAbstract(clazz.getModifiers())) {
+            throw new IllegalArgumentException("不能增强abstract类");
+        }
+        final Method[] declaredMethods = clazz.getDeclaredMethods();
+        int methodCount = declaredMethods.length;
+        for (Method method : declaredMethods) {
+            if (Modifier.isPrivate(method.getModifiers()) || Modifier.isFinal(method.getModifiers())) {
+                methodCount -= 1;
+            }
+        }
+        if (methodCount == 0) {
+            throw new IllegalArgumentException("没有可以增强的方法");
+        }
+
+
     }
 
     private boolean isVoid(Class<?> methodReturnType) {

@@ -31,17 +31,27 @@ public class Enhancer implements Opcodes {
         this.interceptor = interceptor;
     }
 
+    static class ClassContext {
+
+    }
+
+    static class MethodInfo {
+
+    }
+
+
     public <T> T create() {
         validate();
         try {
             supername = getSuperName();
-            superDesc = supername.replace(".", "/");
+            superDesc = Type.getInternalName(superClass);
             classname = generateClassName();
             classDesc = classname.replace(".", "/");
 
             ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-            classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, classDesc, null, superDesc, new String[]{"com/wpp/ToyProxy"});
-
+            classWriter.visit(V1_8, ACC_PUBLIC | ACC_SUPER, classDesc, null, superDesc,
+                    //
+                    new String[]{Type.getInternalName(ToyProxy.class)});
             addFields(classWriter);
             addStaticCode(classWriter);
             addConstructor(classWriter);

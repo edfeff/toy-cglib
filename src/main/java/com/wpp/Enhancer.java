@@ -144,8 +144,8 @@ public class Enhancer implements Opcodes {
                 }
             }
         }
-        //Object 方法 TODO 待补充 equals hashcode
-        {
+        //Object 方法
+        {//toString
             mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
             mv.visitLdcInsn("toString");
             mv.visitInsn(ICONST_0);
@@ -159,6 +159,43 @@ public class Enhancer implements Opcodes {
             mv.visitTypeInsn(ANEWARRAY, "java/lang/Class");
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
             mv.visitFieldInsn(PUTSTATIC, classDesc, "toStringMethodProxy", "Ljava/lang/reflect/Method;");
+        }
+        {//hashcode
+            mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
+            mv.visitLdcInsn("hashCode");
+            mv.visitInsn(ICONST_0);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            mv.visitFieldInsn(PUTSTATIC, classDesc, "hashCodeMethod", "Ljava/lang/reflect/Method;");
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitLdcInsn("__super__hashCode");
+            mv.visitInsn(ICONST_0);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            mv.visitFieldInsn(PUTSTATIC, classDesc, "hashCodeMethodProxy", "Ljava/lang/reflect/Method;");
+        }
+        {//equals
+            mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
+            mv.visitLdcInsn("equals");
+            mv.visitInsn(ICONST_1);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_0);
+            mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
+            mv.visitInsn(AASTORE);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            mv.visitFieldInsn(PUTSTATIC, classDesc, "equalsMethod", "Ljava/lang/reflect/Method;");
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitLdcInsn("__super__equals");
+            mv.visitInsn(ICONST_1);
+            mv.visitTypeInsn(ANEWARRAY, "java/lang/Class");
+            mv.visitInsn(DUP);
+            mv.visitInsn(ICONST_0);
+            mv.visitLdcInsn(Type.getType("Ljava/lang/Object;"));
+            mv.visitInsn(AASTORE);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getDeclaredMethod", "(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;", false);
+            mv.visitFieldInsn(PUTSTATIC, classDesc, "equalsMethodProxy", "Ljava/lang/reflect/Method;");
+
         }
         mv.visitInsn(RETURN);
         mv.visitMaxs(6, 2);
@@ -213,12 +250,7 @@ public class Enhancer implements Opcodes {
     }
 
     private void addFields(ClassWriter classWriter) {
-        FieldVisitor fv = classWriter.visitField(ACC_PRIVATE, "interceptor", "Lcom/wpp/Interceptor;", null, null);
-        fv.visitEnd();
-        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "toStringMethod", "Ljava/lang/reflect/Method;", null, null);
-        fv.visitEnd();
-        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "toStringMethodProxy", "Ljava/lang/reflect/Method;", null, null);
-        fv.visitEnd();
+        addObjectFields(classWriter);
 
         Class clazz = getSuperClass();
 
@@ -228,12 +260,34 @@ public class Enhancer implements Opcodes {
             String methodFieldName = name + "Method";//TODO 暂不考虑方法重载问题
             String methodProxyFieldName = name + "MethodProxy";
 
-            fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, methodFieldName, "Ljava/lang/reflect/Method;", null, null);
+            FieldVisitor fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, methodFieldName, "Ljava/lang/reflect/Method;", null, null);
             fv.visitEnd();
             fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, methodProxyFieldName, "Ljava/lang/reflect/Method;", null, null);
             fv.visitEnd();
         }
 
+    }
+
+    private void addObjectFields(ClassWriter classWriter) {
+        //toString
+        FieldVisitor fv = classWriter.visitField(ACC_PRIVATE, "interceptor", "Lcom/wpp/Interceptor;", null, null);
+        fv.visitEnd();
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "toStringMethod", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "toStringMethodProxy", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
+
+        //hashCode
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "hashCodeMethod", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "hashCodeMethodProxy", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
+
+        //equals
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "equalsMethod", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
+        fv = classWriter.visitField(ACC_PRIVATE | ACC_STATIC, "equalsMethodProxy", "Ljava/lang/reflect/Method;", null, null);
+        fv.visitEnd();
     }
 
     private void addMethods(ClassWriter classWriter) {
@@ -284,6 +338,58 @@ public class Enhancer implements Opcodes {
             mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "toString", "()Ljava/lang/String;", false);
             mv.visitInsn(ARETURN);
             mv.visitMaxs(1, 1);
+            mv.visitEnd();
+        }
+        // hashCode
+        {
+            MethodVisitor mv = classWriter.visitMethod(ACC_PUBLIC, "hashCode", "()I", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, classDesc, "interceptor", "Lcom/wpp/Interceptor;");
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETSTATIC, classDesc, "hashCodeMethod", "Ljava/lang/reflect/Method;");
+            mv.visitInsn(ACONST_NULL);
+            mv.visitFieldInsn(GETSTATIC, classDesc, "hashCodeMethodProxy", "Ljava/lang/reflect/Method;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "com/wpp/Interceptor", "invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Ljava/lang/reflect/Method;)Ljava/lang/Object;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Integer");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Integer", "intValue", "()I", false);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(5, 1);
+            mv.visitEnd();
+        }
+        {
+            MethodVisitor mv = classWriter.visitMethod(ACC_PUBLIC, "__super__hashCode", "()I", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "hashCode", "()I", false);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(1, 1);
+            mv.visitEnd();
+        }
+        { // equals
+            MethodVisitor mv = classWriter.visitMethod(ACC_PUBLIC, "equals", "(Ljava/lang/Object;)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, classDesc, "interceptor", "Lcom/wpp/Interceptor;");
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETSTATIC, classDesc, "equalsMethod", "Ljava/lang/reflect/Method;");
+            mv.visitInsn(ACONST_NULL);
+            mv.visitFieldInsn(GETSTATIC, classDesc, "equalsMethodProxy", "Ljava/lang/reflect/Method;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "com/wpp/Interceptor", "invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;Ljava/lang/reflect/Method;)Ljava/lang/Object;", true);
+            mv.visitTypeInsn(CHECKCAST, "java/lang/Boolean");
+            mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Boolean", "booleanValue", "()Z", false);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(5, 2);
+            mv.visitEnd();
+        }
+        {
+            MethodVisitor mv = classWriter.visitMethod(ACC_PUBLIC, "__super__equals", "(Ljava/lang/Object;)Z", null, null);
+            mv.visitCode();
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitVarInsn(ALOAD, 1);
+            mv.visitMethodInsn(INVOKESPECIAL, "java/lang/Object", "equals", "(Ljava/lang/Object;)Z", false);
+            mv.visitInsn(IRETURN);
+            mv.visitMaxs(2, 2);
             mv.visitEnd();
         }
     }

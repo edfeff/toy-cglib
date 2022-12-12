@@ -22,6 +22,13 @@ public class Base$TOY$1 extends Base implements ToyProxy {
     private static Method toStringMethod;
     private static Method toStringMethodProxy;
 
+    private static Method hashCodeMethod;
+    private static Method hashCodeMethodProxy;
+
+    private static Method equalsMethod;
+    private static Method equalsMethodProxy;
+
+
     static {
         try {
 
@@ -35,6 +42,12 @@ public class Base$TOY$1 extends Base implements ToyProxy {
 
             toStringMethod = Object.class.getDeclaredMethod("toString");
             toStringMethodProxy = c2.getDeclaredMethod("__super__toString");
+
+            hashCodeMethod = Object.class.getDeclaredMethod("hashCode");
+            hashCodeMethodProxy = c2.getDeclaredMethod("__super__hashCode");
+
+            equalsMethod = Object.class.getDeclaredMethod("equals", Object.class);
+            equalsMethodProxy = c2.getDeclaredMethod("__super__equals", Object.class);
 
             voidnoargMethod = c1.getDeclaredMethod("voidnoarg");
             voidnoargMethodProxy = c2.getDeclaredMethod("__super__voidnoarg");
@@ -83,6 +96,26 @@ public class Base$TOY$1 extends Base implements ToyProxy {
 
     public void __proxy__setInterceptor(Interceptor interceptor) {
         this.interceptor = interceptor;
+    }
+
+
+    @Override
+    public int hashCode() {
+        return (int) interceptor.invoke(this, hashCodeMethod, null, hashCodeMethodProxy);
+    }
+
+    public int __super__hashCode() {
+        return super.hashCode();
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return (boolean) interceptor.invoke(this, equalsMethod, null, equalsMethodProxy);
+    }
+
+    public boolean __super__equals(Object obj) {
+        return super.equals(obj);
     }
 
 }

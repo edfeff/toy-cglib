@@ -14,17 +14,15 @@ public class EnhancerDemoMain {
         enhancer.setInterceptor(new Interceptor() {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args, Object mp) {
-                if (mp instanceof Method) {
-                    Method m = (Method) mp;
-                    try {
-                        final long start = System.currentTimeMillis();
-                        Object result = m.invoke(proxy, args);
-                        long time = System.currentTimeMillis() - start;
-                        System.out.println("方法 " + method.getName() + " 耗时:" + time + "ms");
-                        return result;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                Method m = (Method) mp;
+                try {
+                    final long start = System.currentTimeMillis();
+                    Object result = m.invoke(proxy, args);
+                    long time = System.currentTimeMillis() - start;
+                    System.out.println("方法 " + method.getName() + " 耗时:" + time + "ms");
+                    return result;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -47,19 +45,17 @@ public class EnhancerDemoMain {
                 if (method.getName().equals("toString")) {
                     return "这是拦截器的toString";
                 }
-                if (mp instanceof Method) {
-                    Method m = (Method) mp;
-                    try {
-                        System.out.println("拦截方法-before" + m.getName());
-                        Object result = m.invoke(proxy, args);
-                        if (result instanceof String) {
-                            result = "[" + result + "]";
-                        }
-                        System.out.println("拦截方法-after" + m.getName());
-                        return result;
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                Method m = (Method) mp;
+                try {
+                    System.out.println("拦截方法-before" + m.getName());
+                    Object result = m.invoke(proxy, args);
+                    if (result instanceof String) {
+                        result = "[" + result + "]";
                     }
+                    System.out.println("拦截方法-after" + m.getName());
+                    return result;
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 return null;
             }

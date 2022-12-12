@@ -28,6 +28,12 @@ public class Base$TOY$1 extends Base implements ToyProxy {
     private static Method equalsMethod;
     private static Method equalsMethodProxy;
 
+    private static Method twoargMethod;
+    private static Method twoargMethodProxy;
+
+    private static Method fiveargMethod;
+
+    private static Method fiveargMethodProxy;
 
     static {
         try {
@@ -51,6 +57,12 @@ public class Base$TOY$1 extends Base implements ToyProxy {
 
             voidnoargMethod = c1.getDeclaredMethod("voidnoarg");
             voidnoargMethodProxy = c2.getDeclaredMethod("__super__voidnoarg");
+
+            twoargMethod = c1.getDeclaredMethod("twoarg", String.class, String.class);
+            twoargMethodProxy = c2.getDeclaredMethod("__super__twoarg", String.class, String.class);
+
+            fiveargMethod = c1.getDeclaredMethod("fivearg", String.class, String.class, String.class, String.class, String.class);
+            fiveargMethodProxy = c2.getDeclaredMethod("__super__fivearg", String.class, String.class, String.class, String.class, String.class);
 
         } catch (Exception e) {
         }
@@ -118,4 +130,22 @@ public class Base$TOY$1 extends Base implements ToyProxy {
         return super.equals(obj);
     }
 
+
+    @Override
+    public String twoarg(String arg1, String arg2) {
+        return (String) interceptor.invoke(this, twoargMethod, null, twoargMethodProxy);
+    }
+
+    public String __super__twoarg(String arg1, String arg2) {
+        return super.twoarg(arg1, arg2);
+    }
+
+    @Override
+    public String fivearg(String arg1, String arg2, String arg3, String arg4, String arg5) {
+        return (String) interceptor.invoke(this, fiveargMethod, new Object[]{arg1, arg2, arg3, arg4, arg5}, fiveargMethodProxy);
+    }
+
+    public String __super__fivearg(String arg1, String arg2, String arg3, String arg4, String arg5) {
+        return super.fivearg(arg1, arg2, arg3, arg4, arg5);
+    }
 }

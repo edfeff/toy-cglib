@@ -8,7 +8,7 @@ public class EnhancerDemoMain {
 //        genClass2();
     }
 
-    private static void genClass2() {
+    private static void genClass2() throws Exception {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperClass(Bese2.class);
         enhancer.setInterceptor(new Interceptor() {
@@ -34,7 +34,7 @@ public class EnhancerDemoMain {
         }
     }
 
-    private static void genClass() {
+    private static void genClass() throws Exception {
         System.setProperty("com.wpp.debug.location", "/Users/wpp/test/toy-cglib/target");
 
         Enhancer enhancer = new Enhancer();

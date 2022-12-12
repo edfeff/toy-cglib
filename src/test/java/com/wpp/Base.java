@@ -9,16 +9,22 @@ public class Base {
     public void voidnoarg() {
         System.out.println("voidnoarg");
     }
+
     public String noarg() {
         return "noarg";
     }
-// TODO
-//    public String twoarg(String arg1, String arg2) {
-//        return arg1 + arg2;
-//    }
+
+    // TODO
+    public String twoarg(String arg1, String arg2) {
+        return arg1 + arg2;
+    }
 
     public String work(String arg) {
         String result = "Base:work:" + arg;
         return result;
+    }
+
+    public String fivearg(String arg1, String arg2, String arg3, String arg4, String arg5) {
+        return null;
     }
 }
